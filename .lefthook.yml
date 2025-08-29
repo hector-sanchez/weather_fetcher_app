@@ -1,0 +1,5 @@
+pre-commit:
+  commands:
+    rubocop:
+      run: bundle exec rubocop
+      skip: false

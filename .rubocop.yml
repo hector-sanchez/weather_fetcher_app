@@ -1,0 +1,87 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+# Overwrite or add rules to create your own house style
+
+# Commonly used rules for Rails projects
+AllCops:
+  TargetRubyVersion: 3.2
+  NewCops: enable
+  Exclude:
+    - "db/schema.rb"
+    - "bin/*"
+    - "node_modules/**/*"
+    - "vendor/**/*"
+    - "config/environments/*"
+    - "config/initializers/*"
+    - "config/application.rb"
+    - "config/boot.rb"
+    - "config/puma.rb"
+    - "config/routes.rb"
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/ClassLength:
+  Max: 200
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Lint/UselessAssignment:
+  Enabled: true
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: true
+Rails/Output:
+  Enabled: true
+Rails/SaveBang:
+  Enabled: true
+Rails/TimeZone:
+  Enabled: true
+Rails/Blank:
+  Enabled: true
+Rails/Present:
+  Enabled: true
+Rails/NotNullColumn:
+  Enabled: true
+Rails/HasManyOrHasOneDependent:
+  Enabled: true
+Rails/EnumHash:
+  Enabled: true
+Rails/EnvironmentComparison:
+  Enabled: true
+Rails/FindEach:
+  Enabled: true
+Rails/Delegate:
+  Enabled: true
+Rails/ActiveRecordAliases:
+  Enabled: true
+Rails/ActiveRecordCallbacksOrder:
+  Enabled: true
+Rails/ActiveRecordOverride:
+  Enabled: true
+Rails/ActiveSupportOnLoad:
+  Enabled: true
