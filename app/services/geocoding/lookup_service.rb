@@ -14,7 +14,7 @@ module Geocoding
       else
         {
           valid: false,
-          error: result&.data["error_message"] || "Address not found or invalid.",
+          error: (result&.data && result.data["error_message"]) || "Address not found or invalid.",
         }
       end
     rescue StandardError => e
