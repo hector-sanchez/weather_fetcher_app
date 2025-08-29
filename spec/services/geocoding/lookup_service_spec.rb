@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Geocoding::Lookup do
+RSpec.describe Geocoding::LookupService do
   describe ".call" do
     subject(:result) do
       described_class.call(address_fragment: input)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Geocoding
-  class Lookup
+  class LookupService
     def self.call(address_fragment:)
       result = Geocoder.search(address_fragment).first
       if result.present? && result.latitude && result.longitude
@@ -20,7 +20,7 @@ module Geocoding
     rescue StandardError => e
       {
         valid: false,
-        error: e.message,
+        error: e.message
       }
     end
   end
