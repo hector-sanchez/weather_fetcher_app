@@ -1,43 +1,54 @@
 <%# app/views/weather/show.html.erb %>
 
 <main class="min-h-screen flex flex-col items-center justify-center bg-white">
-	<div class="w-full flex flex-col items-center">
-		<header class="mb-10 w-full flex flex-col items-center">
-			<h1 class="text-6xl font-bold text-center mb-8 text-gray-800">
-				Weather
-			</h1>
-		</header>
+	<div class="flex flex-col items-center">
 
-		<% if flash[:alert] %>
-      <aside class="mb-4 w-full p-4 bg-red-100 text-red-800 border border-red-300 text-center">
+    <h2 class="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 text-center">
+      Wanna get the weather for your town?
+    </h2>
+
+    <%= form_with url: weather_search_path, method: :post, local: true, data: { turbo: "false" }, class: "w-full max-w-5xl" do |form| %>
+      <div class="flex items-center border border-gray-200 rounded-xl overflow-hidden shadow-sm mb-4">
+        <%= form.text_field :address,
+          placeholder: "e.g. 123 Main Street, Anytown, CA 12345",
+          class: "flex-grow pl-4 py-3 text-gray-700 placeholder-gray-400 focus:outline-none" %>
+
+        <%= form.submit "Search",
+          class: "px-6 py-3 bg-black text-white font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="mb-4 w-full p-4 bg-red-100 rounded text-red-800 border border-red-300 text-center">
         <%= flash[:alert] %>
-      </aside>
-		<% end %>
+      </div>
+    <% end %>
 
     <% if flash[:notice] %>
-      <aside class="mb-4 w-full p-4 bg-yellow-100 text-yellow-800 border border-yellow-300 text-center">
+      <div class="mb-4 w-full p-4 bg-yellow-100 rounded text-yellow-800 border border-yellow-300 text-center">
         <%= flash[:notice] %>
-      </aside>
-		<% end %>
-
-    <%= form_with url: weather_search_path, method: :post, local: true, data: { turbo: "false" }, class: "w-full flex justify-center items-center px-4" do |f| %>
-      <div class="flex flex-col gap-6 w-full max-w-4xl">
-        <%= f.text_field :address, class: "w-full px-6 py-6 text-2xl border-2 border-black-300 shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-500", autofocus: true, placeholder: "Enter full address (e.g., 123 Main Street, Anytown, CA 12345)" %>
-        <div class="flex justify-center">
-          <%= f.submit "Get Weather", class: "px-12 py-6 bg-blue-600 text-white text-2xl font-bold shadow-lg hover:bg-blue-700 transition-colors duration-200" %>
-        </div>
       </div>
-		<% end %>
+    <% end %>
 
     <% if @weather.present? && @weather[:valid] %>
-      <section class="mt-10 w-full p-8 rounded shadow bg-white flex flex-col items-center border border-gray-200">
+      <section class="w-full p-8 rounded shadow bg-white flex flex-col items-center border border-gray-200">
         <h2 class="text-2xl font-semibold mb-4 text-center">
           Weather for <%= @weather[:location][:name] %>, <%= @weather[:location][:region] %>, <%= @weather[:location][:country] %>
         </h2>
-        <p class="mb-2 text-lg">Latitude: <%= @weather[:location][:latitude] %></p>
-        <p class="mb-2 text-lg">Longitude: <%= @weather[:location][:longitude] %></p>
-        <p class="mb-2 text-lg">Condition: <%= @weather[:current_condition][:text] %></p>
+
+        <div class="flex items-center mb-4">
+          <% if @weather[:current_condition][:icon].present? %>
+            <%= image_tag("https:#{@weather[:current_condition][:icon]}",
+                alt: @weather[:current_condition][:text],
+                class: "w-16 h-16 mr-4") %>
+            <p class="text-3xl font-bold text-gray-900 mb-1">
+              <strong>Temperatures: </strong><%= @weather[:current_condition][:celcius] %>°C / <%= @weather[:current_condition][:farenheit] %>°F
+              <br />
+              <strong>Conditions: </strong><%= @weather[:current_condition][:text] %>
+            </p>
+          <% end %>
+        </div>
       </section>
-		<% end %>
+    <% end %>
 	</div>
 </main>

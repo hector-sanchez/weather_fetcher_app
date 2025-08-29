@@ -11,10 +11,10 @@ class WeatherController < ApplicationController
       if weather_result[:valid]
         @weather = weather_result
       else
-        flash[:alert] = weather_result[:error] if weather_result[:error].present?
+        flash.now[:alert] = weather_result[:error] if weather_result[:error].present?
       end
     else
-      flash[:alert] = geo_result[:error] if geo_result[:error].present?
+      flash.now[:alert] = geo_result[:error] if geo_result[:error].present?
     end
 
     render :show

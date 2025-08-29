@@ -30,6 +30,8 @@ module Weather
           current_condition: {
             text: data["current"]["condition"]["text"],
             icon: data["current"]["condition"]["icon"],
+            celcius: data["current"]["temp_c"],
+            farenheit: data["current"]["temp_f"],
           },
           error: nil,
         }

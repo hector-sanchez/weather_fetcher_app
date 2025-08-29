@@ -9,8 +9,21 @@ RSpec.describe Weather::FetcherService do
     let(:api_key) { "test_api_key" }
     let(:response_body) do
       {
-        location: { "name" => "Mountain View", "region" => "California", "country" => "USA" },
-        current: { "temp_c" => 22.0, "condition" => { "text" => "Sunny" } },
+        location: {
+          "name" => "Mountain View",
+          "region" => "California",
+          "country" => "USA",
+          "lat" => 37.422,
+          "lon" => -122.084,
+        },
+        current: {
+          "temp_c" => 22.0,
+          "temp_f" => 71.6,
+          "condition" => {
+            "text" => "Sunny",
+            "icon" => "//cdn.weatherapi.com/weather/64x64/day/113.png",
+          },
+        },
       }.to_json
     end
 
@@ -29,7 +42,12 @@ RSpec.describe Weather::FetcherService do
         expect(result[:location][:name]).to eq("Mountain View")
         expect(result[:location][:region]).to eq("California")
         expect(result[:location][:country]).to eq("USA")
+        expect(result[:location][:latitude]).to eq(37.422)
+        expect(result[:location][:longitude]).to eq(-122.084)
         expect(result[:current_condition][:text]).to eq("Sunny")
+        expect(result[:current_condition][:icon]).to eq("//cdn.weatherapi.com/weather/64x64/day/113.png")
+        expect(result[:current_condition][:celcius]).to eq(22.0)
+        expect(result[:current_condition][:farenheit]).to eq(71.6)
         expect(result[:error]).to be_nil
       end
     end
