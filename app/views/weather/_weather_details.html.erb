@@ -1,0 +1,20 @@
+<% if weather_presenter.present? && weather_presenter.valid? %>
+  <section class="w-full p-8 rounded shadow bg-white flex flex-col items-center border border-gray-200">
+    <h2 class="text-2xl font-semibold mb-4 text-center">
+      Weather for <%= weather_presenter.full_location_name %>
+    </h2>
+
+    <div class="flex items-center mb-4">
+      <% if weather_presenter.condition_icon_url.present? %>
+        <%= image_tag(weather_presenter.condition_icon_url,
+            alt: weather_presenter.condition_text,
+            class: "w-16 h-16 mr-4") %>
+        <p class="text-zxl font-bold text-gray-900 mb-1">
+          <strong>Temperatures: </strong><%= weather_presenter.temperature_display %>
+          <br />
+          <strong>Conditions: </strong><%= weather_presenter.condition_text %>
+        </p>
+      <% end %>
+    </div>
+  </section>
+<% end %>

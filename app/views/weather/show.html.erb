@@ -1,8 +1,5 @@
-<%# app/views/weather/show.html.erb %>
-
 <main class="min-h-screen flex flex-col items-center justify-center bg-white">
 	<div class="flex flex-col items-center">
-
     <h2 class="text-2xl md:text-3xl font-semibold text-gray-900 mb-2 text-center">
       Wanna get the weather for your town?
     </h2>
@@ -18,37 +15,7 @@
       </div>
     <% end %>
 
-    <% if flash[:alert] %>
-      <div class="mb-4 w-full p-4 bg-red-100 rounded text-red-800 border border-red-300 text-center">
-        <%= flash[:alert] %>
-      </div>
-    <% end %>
-
-    <% if flash[:notice] %>
-      <div class="mb-4 w-full p-4 bg-yellow-100 rounded text-yellow-800 border border-yellow-300 text-center">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
-
-    <% if @weather_presenter.present? && @weather_presenter.valid? %>
-      <section class="w-full p-8 rounded shadow bg-white flex flex-col items-center border border-gray-200">
-        <h2 class="text-2xl font-semibold mb-4 text-center">
-          Weather for <%= @weather_presenter.full_location_name %>
-        </h2>
-
-        <div class="flex items-center mb-4">
-          <% if @weather_presenter.condition_icon_url.present? %>
-            <%= image_tag(@weather_presenter.condition_icon_url,
-                alt: @weather_presenter.condition_text,
-                class: "w-16 h-16 mr-4") %>
-            <p class="text-zxl font-bold text-gray-900 mb-1">
-              <strong>Temperatures: </strong><%= @weather_presenter.temperature_display %>
-              <br />
-              <strong>Conditions: </strong><%= @weather_presenter.condition_text %>
-            </p>
-          <% end %>
-        </div>
-      </section>
-    <% end %>
+    <%= render 'notifications' %>
+    <%= render 'weather_details', weather_presenter: @weather_presenter %>
 	</div>
 </main>
