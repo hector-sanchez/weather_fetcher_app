@@ -19,14 +19,12 @@ class WeatherController < ApplicationController
   private
 
   def fetch_weather_data(address)
-    # Check cache hits BEFORE fetching data
     geocoding_cache_key = "geocoding:#{normalize_address(address)}"
     geocoding_cache_hit = Rails.cache.exist?(geocoding_cache_key)
     geo_data = fetch_geocoding_data(address)
     geo_presenter = GeocodingPresenter.new(geo_data)
     return geo_presenter unless geo_presenter.valid?
 
-    # Check weather cache hit BEFORE fetching weather data
     weather_cache_key = "weather:#{geo_presenter.latitude}_#{geo_presenter.longitude}"
     weather_cache_hit = Rails.cache.exist?(weather_cache_key)
     weather_data = fetch_weather_by_coordinates(geo_presenter.latitude, geo_presenter.longitude)
@@ -58,7 +56,6 @@ class WeatherController < ApplicationController
 
   def handle_weather_response(payload)
     if payload.is_a?(GeocodingPresenter) && payload.invalid?
-      # Handle geocoding error
       flash.now[:alert] = payload.error if payload.error.present?
       return
     end

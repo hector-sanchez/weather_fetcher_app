@@ -25,19 +25,16 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
-# Register a visible Chrome driver for debugging
 Capybara.register_driver :selenium_chrome_visible do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('--no-sandbox')
   options.add_argument('--disable-dev-shm-usage')
   options.add_argument('--disable-web-security')
   options.add_argument('--allow-running-insecure-content')
-  # Remove --headless to make browser visible
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
-# Set the default driver for feature tests
 Capybara.default_driver = :rack_test
 Capybara.javascript_driver = ENV['SHOW_BROWSER'] ? :selenium_chrome_visible : :selenium_chrome_headless
 
@@ -71,17 +68,12 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join('spec/fixtures'),
   ]
 
-  # Capybara configuration
   config.include Capybara::DSL
 
-  # FFaker is available globally in specs
-
-  # Load environment variables from .env in test
   require 'dotenv'
   Dotenv.load('.env')
 
