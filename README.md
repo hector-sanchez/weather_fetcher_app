@@ -66,6 +66,33 @@ The application architecture is specifically designed to support these planned f
 
 **Key Design Decision**: The `_weather_details` partial accepts `weather_presenter` as a local variable rather than relying on instance variables, making it perfectly suited for rendering multiple weather components (current + forecast) on the same page without variable conflicts.
 
+## Environment Variables
+
+This application requires two API keys to function properly:
+
+### Google Geocoding API Key (`ADDRESS_API_KEY`)
+- **Purpose**: Converts user-entered addresses into latitude/longitude coordinates
+- **Service**: Google Geocoding API
+- **Setup**:
+  1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+  2. Enable the Geocoding API
+  3. Create credentials and copy the API key
+  4. Add to `.env` as `ADDRESS_API_KEY=your_google_api_key`
+
+### Weather API Key (`WEATHER_API_KEY`)
+- **Purpose**: Retrieves current weather data for coordinates
+- **Service**: WeatherAPI.com
+- **Setup**:
+  1. Sign up at [WeatherAPI.com](https://www.weatherapi.com/)
+  2. Get your free API key from the dashboard
+  3. Add to `.env` as `WEATHER_API_KEY=your_weather_api_key`
+
+**Example `.env` file:**
+```bash
+ADDRESS_API_KEY=your_google_api_key
+WEATHER_API_KEY=your_weather_api_key
+```
+
 ## Setup
 
 1. **Clone the repository**
@@ -74,7 +101,9 @@ The application architecture is specifically designed to support these planned f
 	bundle install
 	```
 3. **Set up environment variables**
-	- Copy `.env.example` to `.env` and fill in required API keys (address service, weather API, etc.)
+	- Copy `.env.example` to `.env` and fill in required API keys:
+	  - `ADDRESS_API_KEY`: Google Geocoding API key for address validation and coordinate lookup
+	  - `WEATHER_API_KEY`: WeatherAPI.com API key for weather data retrieval
 4. **Set up the database**
 	```bash
 	bin/rails db:setup
