@@ -14,7 +14,7 @@
           class: "flex-grow pl-4 py-3 text-gray-700 placeholder-gray-400 focus:outline-none" %>
 
         <%= form.submit "Search",
-          class: "px-6 py-3 bg-black text-white font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          class: "px-6 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
       </div>
     <% end %>
 
@@ -41,7 +41,7 @@
             <%= image_tag("https:#{@weather[:current_condition][:icon]}",
                 alt: @weather[:current_condition][:text],
                 class: "w-16 h-16 mr-4") %>
-            <p class="text-3xl font-bold text-gray-900 mb-1">
+            <p class="text-zxl font-bold text-gray-900 mb-1">
               <strong>Temperatures: </strong><%= @weather[:current_condition][:celcius] %>°C / <%= @weather[:current_condition][:farenheit] %>°F
               <br />
               <strong>Conditions: </strong><%= @weather[:current_condition][:text] %>
