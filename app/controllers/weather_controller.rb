@@ -20,14 +20,16 @@ class WeatherController < ApplicationController
 
   def fetch_weather_data(address)
     geo_data = fetch_geocoding_data(address)
-    return geo_data unless geo_data[:valid]
+    geo_presenter = GeocodingPresenter.new(geo_data)
+    return geo_presenter unless geo_presenter.valid?
 
-    weather_data = fetch_weather_by_coordinates(geo_data[:latitude], geo_data[:longitude])
+    weather_data = fetch_weather_by_coordinates(geo_presenter.latitude, geo_presenter.longitude)
+    weather_presenter = WeatherPresenter.new(weather_data)
 
     {
-      geocoding: geo_data,
-      weather: weather_data,
-      cache_hits: determine_cache_hits(address, geo_data[:latitude], geo_data[:longitude]),
+      geocoding_presenter: geo_presenter,
+      weather_presenter: weather_presenter,
+      cache_hits: determine_cache_hits(address, geo_presenter.latitude, geo_presenter.longitude),
     }
   end
 
@@ -56,19 +58,19 @@ class WeatherController < ApplicationController
   end
 
   def handle_weather_response(payload)
-    if payload[:valid] == false
+    if payload.is_a?(GeocodingPresenter) && payload.invalid?
       # Handle geocoding error
-      flash.now[:alert] = payload[:error] if payload[:error].present?
+      flash.now[:alert] = payload.error if payload.error.present?
       return
     end
 
-    weather_result = payload[:weather]
+    weather_presenter = payload[:weather_presenter]
 
-    if weather_result[:valid]
-      @weather = weather_result
+    if weather_presenter.valid?
+      @weather_presenter = weather_presenter
       set_cache_notice(payload[:cache_hits])
     else
-      flash.now[:alert] = weather_result[:error] if weather_result[:error].present?
+      flash.now[:alert] = weather_presenter.error if weather_presenter.error.present?
     end
   end
 
