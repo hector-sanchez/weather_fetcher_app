@@ -1,24 +1,213 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Weather App
 
-Things you may want to cover:
+This Rails application retrieves weather information for a given address. It uses a third-party address service to validate and extrapolate latitude and longitude from user-provided address fragments. The app then fetches weather data for those coordinates.
 
-* Ruby version
+## Features
 
-* System dependencies
+- Address validation and geocoding using a third-party service
+- Weather retrieval by latitude and longitude
+- **Scalable presenter-based architecture** designed for future weather forecast features
+- **Modular view components** with reusable partials for easy feature expansion
+- **30-minute intelligent caching** for both geocoding and weather data
+- Modern Rails stack with Tailwind CSS, Turbo, Stimulus, and Importmap
+- RSpec, FactoryBot, FFaker, and Shoulda Matchers for testing
+- Rubocop and Lefthook for code quality and pre-commit checks
+- Environment variable management with dotenv
 
-* Configuration
+## Architecture & Scalability
 
-* Database creation
+This application is built with future expansion in mind, particularly for adding weather forecast capabilities:
 
-* Database initialization
+### **Presenter Pattern for Data Management**
+- **`GeocodingPresenter`**: Handles address validation and coordinate data with clean `presenter.valid?` interface
+- **`WeatherPresenter`**: Manages current weather data with methods like `temperature_display`, `full_location_name`, and `condition_icon_url`
+- **Future-Ready**: Presenter pattern easily extends to `WeatherForecastPresenter` for multi-day forecasts
 
-* How to run the test suite
+### **Modular View Components**
+- **`_weather_details` partial**: Accepts `weather_presenter` as local variable, designed for reusability
+- **Scalability Focus**: The weather_details component can easily display:
+  - Current weather (implemented)
+  - 5-day forecasts (future)
+  - Hourly forecasts (future)
+  - Weather alerts (future)
+- **`_notifications` partial**: Reusable flash message component for consistent UX
 
-* Services (job queues, cache servers, search engines, etc.)
+### **Service Layer Architecture**
+- **`Geocoding::LookupService`**: Isolated geocoding logic with caching
+- **`Weather::FetcherService`**: Weather API integration with structured responses
+- **Extensible**: New services like `Weather::ForecastService` can be added without touching existing code
 
-* Deployment instructions
+### **Performance & Caching Strategy**
+- **30-minute cache expiration** for both geocoding and weather data
+- **Cache hit detection** with user-friendly notifications
+- **Memory-efficient**: Presenter objects only created when needed
+- **Future-Ready**: Caching strategy supports forecast data with different TTL requirements
 
-* ...
+## Future Roadmap
+
+The application architecture is specifically designed to support these planned features:
+
+### **Weather Forecasts**
+- **5-Day Weather Forecasts**: Reuse existing `_weather_details` partial with `WeatherForecastPresenter`
+- **Hourly Forecasts**: Same modular approach with time-based data presentation
+- **Weather Trends**: Historical data integration using established presenter pattern
+
+### **Enhanced User Experience**
+- **Location Favorites**: Leverage existing geocoding cache for saved locations
+- **Weather Alerts**: Extend notification system for severe weather warnings
+- **Multi-Location Dashboard**: Scale the weather_details component for multiple locations
+
+### **API & Data Expansion**
+- **Multiple Weather Sources**: Service layer supports easy provider switching
+- **Radar Data**: Image-based weather data using existing presenter approach
+- **Air Quality Index**: Additional data streams following established patterns
+
+**Key Design Decision**: The `_weather_details` partial accepts `weather_presenter` as a local variable rather than relying on instance variables, making it perfectly suited for rendering multiple weather components (current + forecast) on the same page without variable conflicts.
+
+## Setup
+
+1. **Clone the repository**
+2. **Install dependencies**
+	```bash
+	bundle install
+	```
+3. **Set up environment variables**
+	- Copy `.env.example` to `.env` and fill in required API keys (address service, weather API, etc.)
+4. **Set up the database**
+	```bash
+	bin/rails db:setup
+	```
+5. **Run the application**
+	```bash
+	bin/rails server
+	```
+
+## Usage
+
+1. Enter an address or address fragment in the app interface.
+2. The app validates and geocodes the address using the third-party service.
+3. Weather data is retrieved for the resulting latitude and longitude.
+
+## Testing
+
+The application includes comprehensive test coverage with both unit and feature tests:
+
+- **Unit Tests**: Service objects and presenters are tested in isolation with mocked API responses
+- **Presenter Tests**: Complete coverage of `GeocodingPresenter` and `WeatherPresenter` data handling and validation logic
+- **Feature Tests**: Full browser tests using Selenium WebDriver with Chrome in headless mode
+- **Test Framework**: RSpec with FactoryBot, FFaker, and Shoulda Matchers
+- **Browser Testing**: Capybara with Selenium WebDriver for JavaScript-enabled features
+
+### Running Tests
+
+Run the full test suite:
+```bash
+bundle exec rspec
+```
+
+Run only unit tests (faster):
+```bash
+bundle exec rspec spec/services/ spec/presenters/
+```
+
+Run only feature tests:
+```bash
+bundle exec rspec spec/features/
+```
+
+Run tests with documentation format:
+```bash
+bundle exec rspec --format documentation
+```
+
+### Browser Testing
+
+Feature tests use Selenium WebDriver with Chrome and support both headless and visible browser modes:
+
+**Test Coverage:**
+- Search functionality with valid addresses
+- Error handling for invalid addresses
+- UI interactions and content display
+- Weather data presentation including temperature and conditions
+
+**Browser Testing Modes:**
+
+1. **Headless Mode (Default - Fast)**
+   ```bash
+   # Regular headless testing
+   bundle exec rspec spec/features/
+   ```
+
+2. **Visible Browser Mode (Debugging)**
+   ```bash
+   # See browser window during tests
+   SHOW_BROWSER=true bundle exec rspec spec/features/weather_search_spec.rb
+   ```
+
+3. **Step-by-Step Debugging**
+   ```bash
+   # Visible browser with pause after each test
+   SHOW_BROWSER=true PAUSE_AFTER_STEPS=5 bundle exec rspec spec/features/weather_search_spec.rb
+   ```
+
+4. **Single Test Debugging**
+   ```bash
+   # Run specific test with visible browser
+   SHOW_BROWSER=true rspec spec/features/weather_search_spec.rb:12
+   ```
+
+**Environment Variables:**
+- `SHOW_BROWSER=true` - Opens visible Chrome window during tests
+- `PAUSE_AFTER_STEPS=N` - Pauses N seconds after each test (requires SHOW_BROWSER=true)
+- `CAPYBARA_DEBUG=true` - Enables screenshots and additional debugging features
+
+### Testing Best Practices
+
+**Development Workflow:**
+1. Use headless mode for regular TDD cycles (fastest)
+2. Use visible browser mode when debugging test failures
+3. Use pause mode to observe step-by-step test execution
+4. Service tests run independently of browser tests for quick feedback
+
+**Debugging Tips:**
+- Set `SHOW_BROWSER=true` to see what the browser is actually doing
+- Use `PAUSE_AFTER_STEPS=10` to inspect the final state after test completion
+- Check `tmp/capybara/` directory for screenshots when `CAPYBARA_DEBUG=true`
+- Feature tests mock API calls to avoid external dependencies
+
+**Test Structure:**
+- Unit tests (`spec/services/`) - Fast, isolated, no browser
+- Feature tests (`spec/features/`) - Full integration, browser automation
+- All tests use realistic mock data matching actual API responses
+
+## Code Quality
+
+- Rubocop runs automatically before each commit via Lefthook.
+- To run manually:
+  ```bash
+  bundle exec rubocop
+  ```
+
+## Configuration
+
+- All sensitive keys and configuration should be placed in `.env`.
+- Tailwind CSS is managed via the `tailwindcss-rails` gem.
+
+## Architecture
+
+- Rails 8
+- Tailwind CSS
+- Turbo, Stimulus, Importmap
+- RSpec, FactoryBot, FFaker, Shoulda Matchers
+- Rubocop, Lefthook
+- dotenv
+
+## Deployment
+
+Standard Rails deployment. Ensure environment variables are set on your server.
+
+## License
+
+MIT
