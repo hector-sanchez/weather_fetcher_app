@@ -12,7 +12,7 @@ This Rails application retrieves weather information for a given address. It use
 - **Modular view components** with reusable partials for easy feature expansion
 - **30-minute intelligent caching** for both geocoding and weather data
 - Modern Rails stack with Tailwind CSS, Turbo, Stimulus, and Importmap
-- RSpec, FactoryBot, FFaker, and Shoulda Matchers for testing
+- RSpec, FFaker, and Shoulda Matchers for testing
 - Rubocop and Lefthook for code quality and pre-commit checks
 - Environment variable management with dotenv
 
@@ -97,7 +97,7 @@ The application includes comprehensive test coverage with both unit and feature 
 - **Unit Tests**: Service objects and presenters are tested in isolation with mocked API responses
 - **Presenter Tests**: Complete coverage of `GeocodingPresenter` and `WeatherPresenter` data handling and validation logic
 - **Feature Tests**: Full browser tests using Selenium WebDriver with Chrome in headless mode
-- **Test Framework**: RSpec with FactoryBot, FFaker, and Shoulda Matchers
+- **Test Framework**: RSpec with FFaker and Shoulda Matchers
 - **Browser Testing**: Capybara with Selenium WebDriver for JavaScript-enabled features
 - **Code Coverage**: SimpleCov with Codecov integration for coverage reporting
 
@@ -241,7 +241,7 @@ open coverage/index.html
 - Rails 8
 - Tailwind CSS
 - Turbo, Stimulus, Importmap
-- RSpec, FactoryBot, FFaker, Shoulda Matchers
+- RSpec, FFaker, Shoulda Matchers
 - Rubocop, Lefthook
 - dotenv
 

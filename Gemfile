@@ -29,7 +29,6 @@ group :development, :test do
   gem "capybara"
   gem "codecov", require: false
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "factory_bot_rails"
   gem "ffaker"
   gem "rspec-rails"
   gem "rubocop", "~> 1.80", require: false

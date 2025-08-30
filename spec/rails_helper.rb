@@ -76,9 +76,6 @@ RSpec.configure do |config|
     Rails.root.join('spec/fixtures'),
   ]
 
-  # FactoryBot configuration
-  config.include FactoryBot::Syntax::Methods
-
   # Capybara configuration
   config.include Capybara::DSL
 
