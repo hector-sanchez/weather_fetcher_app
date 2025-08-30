@@ -1,0 +1,39 @@
+# Codecov configuration
+# Documentation: https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  status:
+    project:
+      default:
+        target: 85%
+        threshold: 1%
+        base: auto
+    patch:
+      default:
+        target: 70%
+        threshold: 5%
+
+  ignore:
+    - "config/**/*"
+    - "db/**/*"
+    - "spec/**/*"
+    - "bin/**/*"
+    - "tmp/**/*"
+    - "log/**/*"
+    - "public/**/*"
+    - "storage/**/*"
+    - "vendor/**/*"
+    - "app/channels/**/*"
+    - "app/models/application_record.rb"
+    - "app/jobs/application_job.rb"
+    - "app/mailers/application_mailer.rb"
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+
+github_checks:
+  annotations: true

@@ -99,12 +99,22 @@ The application includes comprehensive test coverage with both unit and feature 
 - **Feature Tests**: Full browser tests using Selenium WebDriver with Chrome in headless mode
 - **Test Framework**: RSpec with FactoryBot, FFaker, and Shoulda Matchers
 - **Browser Testing**: Capybara with Selenium WebDriver for JavaScript-enabled features
+- **Code Coverage**: SimpleCov with Codecov integration for coverage reporting
 
 ### Running Tests
 
 Run the full test suite:
 ```bash
 bundle exec rspec
+```
+
+Run tests with coverage report:
+```bash
+# Local coverage report (generates HTML report in coverage/)
+./bin/coverage
+
+# Or manually with environment variable
+COVERAGE=true bundle exec rspec
 ```
 
 Run only unit tests (faster):
@@ -179,8 +189,39 @@ Feature tests use Selenium WebDriver with Chrome and support both headless and v
 
 **Test Structure:**
 - Unit tests (`spec/services/`) - Fast, isolated, no browser
+- Presenter tests (`spec/presenters/`) - Data handling and validation logic
 - Feature tests (`spec/features/`) - Full integration, browser automation
 - All tests use realistic mock data matching actual API responses
+
+### Code Coverage
+
+The project uses **SimpleCov** with **Codecov** integration for comprehensive test coverage reporting:
+
+**Local Coverage:**
+```bash
+# Generate HTML coverage report
+./bin/coverage
+
+# View report in browser
+open coverage/index.html
+```
+
+**CI Coverage:**
+- Automatic coverage reporting on GitHub Actions
+- Results uploaded to Codecov for tracking over time
+- Coverage thresholds enforced (85% overall, 70% per file)
+
+**Coverage Configuration:**
+- **Tracked**: Controllers, Models, Services, Presenters, Helpers, Jobs, Mailers
+- **Excluded**: Config files, specs, migrations, vendor code
+- **Thresholds**: 85% overall coverage, 70% minimum per file
+- **Branch Coverage**: Enabled for Ruby 2.5+
+
+**Codecov Setup (for maintainers):**
+1. Sign up at [codecov.io](https://codecov.io) and link your GitHub repository
+2. Add `CODECOV_TOKEN` secret to your GitHub repository settings
+3. Coverage reports are automatically uploaded via GitHub Actions on every push/PR
+4. View coverage trends and file-by-file coverage at your Codecov dashboard
 
 ## Code Quality
 

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Script to run tests with coverage locally
+# Usage: ./bin/coverage
+
+echo "🧪 Running tests with coverage..."
+echo "================================="
+
+# Set coverage environment variable
+export COVERAGE=true
+
+# Run the tests
+bundle exec rspec --format progress
+
+# Check if coverage was generated
+if [ -d "coverage" ]; then
+  echo ""
+  echo "✅ Coverage report generated!"
+  echo "📊 Open coverage/index.html in your browser to view the report"
+  echo "📈 Coverage summary:"
+
+  # Extract coverage percentage from the JSON file if it exists
+  if [ -f "coverage/coverage.json" ]; then
+    ruby -r json -e '
+      data = JSON.parse(File.read("coverage/coverage.json"))
+      if data["meta"] && data["meta"]["covered_percent"]
+        puts "   Overall Coverage: #{data["meta"]["covered_percent"].round(2)}%"
+      end
+    ' 2>/dev/null || echo "   Check coverage/index.html for detailed report"
+  fi
+
+  echo ""
+  echo "🌐 To open the report:"
+  echo "   open coverage/index.html"
+else
+  echo "❌ Coverage report not generated"
+fi
