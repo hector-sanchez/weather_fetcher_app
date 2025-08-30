@@ -1,3 +1,37 @@
 <svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#3b82f6"/>
+  
+  <!-- Sun -->
+  <circle cx="180" cy="180" r="60" fill="#fbbf24"/>
+  
+  <!-- Sun rays -->
+  <g stroke="#fbbf24" stroke-width="8" stroke-linecap="round">
+    <line x1="180" y1="80" x2="180" y2="100"/>
+    <line x1="180" y1="260" x2="180" y2="280"/>
+    <line x1="80" y1="180" x2="100" y2="180"/>
+    <line x1="260" y1="180" x2="280" y2="180"/>
+    <line x1="125" y1="125" x2="140" y2="140"/>
+    <line x1="220" y1="220" x2="235" y2="235"/>
+    <line x1="235" y1="125" x2="220" y2="140"/>
+    <line x1="140" y1="220" x2="125" y2="235"/>
+  </g>
+  
+  <!-- Cloud -->
+  <g fill="#ffffff">
+    <circle cx="280" cy="280" r="50"/>
+    <circle cx="330" cy="280" r="40"/>
+    <circle cx="350" cy="320" r="45"/>
+    <circle cx="300" cy="320" r="55"/>
+    <circle cx="250" cy="320" r="40"/>
+  </g>
+  
+  <!-- Cloud shadow for depth -->
+  <g fill="#e5e7eb" opacity="0.5">
+    <circle cx="282" cy="285" r="48"/>
+    <circle cx="332" cy="285" r="38"/>
+    <circle cx="352" cy="325" r="43"/>
+    <circle cx="302" cy="325" r="53"/>
+    <circle cx="252" cy="325" r="38"/>
+  </g>
 </svg>
