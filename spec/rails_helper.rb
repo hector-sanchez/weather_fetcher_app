@@ -9,6 +9,42 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # return unless Rails.env.test?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'capybara/rails'
+require 'capybara/rspec'
+
+# Configure Capybara for Selenium
+Capybara.register_driver :selenium_chrome_headless do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  options.add_argument('--disable-gpu')
+  options.add_argument('--disable-web-security')
+  options.add_argument('--allow-running-insecure-content')
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+# Register a visible Chrome driver for debugging
+Capybara.register_driver :selenium_chrome_visible do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  options.add_argument('--disable-web-security')
+  options.add_argument('--allow-running-insecure-content')
+  # Remove --headless to make browser visible
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+# Set the default driver for feature tests
+Capybara.default_driver = :rack_test
+Capybara.javascript_driver = ENV['SHOW_BROWSER'] ? :selenium_chrome_visible : :selenium_chrome_headless
+
+# Configure server and timeouts
+Capybara.server_host = '127.0.0.1'
+Capybara.server_port = 3001
+Capybara.default_max_wait_time = 10
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -42,6 +78,9 @@ RSpec.configure do |config|
 
   # FactoryBot configuration
   config.include FactoryBot::Syntax::Methods
+
+  # Capybara configuration
+  config.include Capybara::DSL
 
   # FFaker is available globally in specs
 

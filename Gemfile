@@ -26,6 +26,7 @@ end
 
 group :development, :test do
   gem "brakeman", require: false
+  gem "capybara"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "factory_bot_rails"
   gem "ffaker"
@@ -33,5 +34,6 @@ group :development, :test do
   gem "rubocop", "~> 1.80", require: false
   gem "rubocop-rails", "~> 2.33", require: false
   gem "rubocop-rails-omakase", require: false
+  gem "selenium-webdriver", ">= 4.11"
   gem "shoulda-matchers"
 end
