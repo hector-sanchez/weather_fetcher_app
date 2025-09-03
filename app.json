@@ -1,0 +1,38 @@
+{
+  "name": "Weather Fetcher App",
+  "description": "A Rails application that retrieves weather information for a given address using geocoding and weather APIs",
+  "image": "heroku/ruby",
+  "repository": "https://github.com/hector-sanchez/weather_fetcher_app",
+  "keywords": ["rails", "weather", "geocoding", "api"],
+  "addons": [
+    "heroku-postgresql:mini"
+  ],
+  "env": {
+    "ADDRESS_API_KEY": {
+      "description": "Google Geocoding API key for address validation and coordinate lookup",
+      "required": true
+    },
+    "WEATHER_API_KEY": {
+      "description": "WeatherAPI.com API key for weather data retrieval", 
+      "required": true
+    },
+    "RAILS_MASTER_KEY": {
+      "description": "Rails master key for encrypted credentials",
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "bundle exec rails db:migrate"
+  }
+}

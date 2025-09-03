@@ -276,7 +276,59 @@ open coverage/index.html
 
 ## Deployment
 
-Standard Rails deployment. Ensure environment variables are set on your server.
+This application is ready for deployment on multiple platforms:
+
+### Heroku Deployment
+
+1. **Create Heroku App**
+   ```bash
+   heroku create your-weather-app-name
+   ```
+
+2. **Set Environment Variables**
+   ```bash
+   heroku config:set ADDRESS_API_KEY=your_google_api_key
+   heroku config:set WEATHER_API_KEY=your_weather_api_key
+   heroku config:set RAILS_MASTER_KEY=$(cat config/master.key)
+   ```
+
+3. **Deploy**
+   ```bash
+   git push heroku main
+   ```
+
+4. **Run Database Migration**
+   ```bash
+   heroku run rails db:migrate
+   ```
+
+### Render Deployment
+
+1. **Connect GitHub Repository** to [Render](https://render.com)
+2. **Create Web Service** from your GitHub repo
+3. **Set Environment Variables** in Render dashboard:
+   - `ADDRESS_API_KEY`: Your Google Geocoding API key
+   - `WEATHER_API_KEY`: Your WeatherAPI.com key  
+   - `RAILS_MASTER_KEY`: Content of your `config/master.key` file
+4. **Deploy** - Render will automatically use the `render.yaml` configuration
+
+### Railway Deployment
+
+1. **Connect GitHub Repository** to [Railway](https://railway.app)
+2. **Add PostgreSQL Database** service
+3. **Set Environment Variables**:
+   - `ADDRESS_API_KEY`: Your Google Geocoding API key
+   - `WEATHER_API_KEY`: Your WeatherAPI.com key
+   - `RAILS_MASTER_KEY`: Content of your `config/master.key` file
+4. **Deploy** - Railway will auto-detect Rails and deploy
+
+### One-Click Deploy Buttons
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/hector-sanchez/weather_fetcher_app)
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/hector-sanchez/weather_fetcher_app)
+
+**Important**: Remember to set your environment variables on your chosen platform before the app will work properly.
 
 ## License
 
