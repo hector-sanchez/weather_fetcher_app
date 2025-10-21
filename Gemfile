@@ -31,7 +31,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "ffaker"
   gem "rspec-rails"
-  gem "rubocop", "~> 1.80", require: false
+  gem "rubocop", "~> 1.81", require: false
   gem "rubocop-rails", "~> 2.33", require: false
   gem "rubocop-rails-omakase", require: false
   gem "selenium-webdriver", ">= 4.11"
